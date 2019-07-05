@@ -8,65 +8,13 @@
 - 然后修改nginx的配置文件 ./nginx/sites/default.conf，**着重看下upstream**的配置
 
 
-    `map $http_upgrade $connection_upgrade {
-             default upgrade;
-             ''      close;
-         }
+
          upstream laravels {
              # Connect IP:Port
              server workspace:1215 weight=5 max_fails=3 fail_timeout=30s;
              keepalive 16;
          }
-         server {
-    
-             listen 80;
-         #    listen [::]:80 ipv6only=on;
-    
-             server_name localhost;
-             root /var/www/swoole/public;
-             index index.php index.html index.htm;
-             error_log /var/www/swoole_error.log;
-    
-             location = /index.php {
-                 # Ensure that there is no such file named "not_exists"
-                 # in your "public" directory.
-                 try_files /not_exists @swoole;
-             }
-    
-             location / {
-                  try_files $uri $uri/ @swoole;
-             }
-    
-             location @swoole {
-                 set $suffix "";
-    
-                 if ($uri = /index.php) {
-                     set $suffix ?$query_string;
-                 }
-    
-                 proxy_set_header Host $http_host;
-                 proxy_set_header Scheme $scheme;
-                 proxy_set_header SERVER_PORT $server_port;
-                 proxy_set_header REMOTE_ADDR $remote_addr;
-                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                 proxy_set_header Upgrade $http_upgrade;
-                 proxy_set_header Connection $connection_upgrade;
-    
-                 # IF https
-                 # proxy_set_header HTTPS "on";
-    
-                 proxy_pass http://laravels$suffix;
-             }
-    
-             location ~ /\.ht {
-                 deny all;
-             }
-    
-             location /.well-known/acme-challenge/ {
-                 root /var/www/letsencrypt/;
-                 log_not_found off;
-             }
-         }`
+         
          
          
 修改完之后，记得`docker-compose build nginx`
