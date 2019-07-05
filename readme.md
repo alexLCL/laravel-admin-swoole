@@ -71,6 +71,7 @@
                  log_not_found off;
              }
          }`
+
          
          
 修改完之后，记得`docker-compose build nginx`
