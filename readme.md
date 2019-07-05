@@ -8,7 +8,7 @@
 - 然后修改nginx的配置文件 ./nginx/sites/default.conf，**着重看下upstream**的配置
 
 
-    map $http_upgrade $connection_upgrade {
+    `map $http_upgrade $connection_upgrade {
              default upgrade;
              ''      close;
          }
@@ -66,7 +66,7 @@
                  root /var/www/letsencrypt/;
                  log_not_found off;
              }
-         }
+         }`
          
          
 修改完之后，记得`docker-compose build nginx`
