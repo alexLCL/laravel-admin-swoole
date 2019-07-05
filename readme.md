@@ -9,14 +9,18 @@
 
 
     `map $http_upgrade $connection_upgrade {
+    
              default upgrade;
              ''      close;
          }
+         
          upstream laravels {
+         
              # Connect IP:Port
              server workspace:1215 weight=5 max_fails=3 fail_timeout=30s;
              keepalive 16;
          }
+         
          server {
     
              listen 80;
