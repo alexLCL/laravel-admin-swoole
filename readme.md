@@ -24,7 +24,6 @@ map $http_upgrade $connection_upgrade {
  server {
 
      listen 80;
- #    listen [::]:80 ipv6only=on;
 
      server_name localhost;
      root /var/www/swoole/public;
